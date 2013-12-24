@@ -1,13 +1,15 @@
 class BinaryCode:
 	def decode(self, message):
-		if len(message) <= 1:
-			return ("NONE", "NONE")
 		message = [int(i) for i in message]
 
-		x = [0, message[0]]
-		for i in range(1, len(message)):
-			e = message[i]-x[i]-x[i-1]
-			if e not in [0,1]:
+		x = [0]
+		for i in range(len(message)):
+			if i==0:
+				e = message[i]-x[i]
+			else:
+				e = message[i]-x[i]-x[i-1]
+			#last element subtraction should be 0
+			if e not in [0,1] or (i==len(message)-1 and e!=0):
 				x = "NONE"
 				break
 			# don't add last element because it was just a check for correctness
@@ -15,10 +17,14 @@ class BinaryCode:
 				x.append(e)
 		x = "".join([str(i) for i in x])
 
-		y = [1, message[0]-1]
-		for i in range(1, len(message)):
-			e = message[i]-y[i]-y[i-1]
-			if e not in [0,1]:
+		y = [1]
+		for i in range(len(message)):
+			if i == 0:
+				e = message[i]-y[i]
+			else:
+				e = message[i]-y[i]-y[i-1]
+			#last element subtraction should be 0
+			if e not in [0,1] or (i==len(message)-1 and e!=0):
 				y = "NONE"
 				break
 			# don't add last element because it was just a check for correctness
@@ -31,4 +37,4 @@ class BinaryCode:
 
 
 bin = BinaryCode()
-print bin.decode("123210122")
+print bin.decode("1")
